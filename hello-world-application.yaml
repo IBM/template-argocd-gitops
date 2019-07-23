@@ -7,12 +7,12 @@ metadata:
     - resources-finalizer.argocd.argoproj.io
 spec:
   destination:
-    namespace: jkwong-dev
+    namespace: test
     server: https://kubernetes.default.svc
   project: default
   source:
     path: .
-    repoURL: https://github.com/jkwong888/liberty-hello-world-openshift-deploy.git
+    repoURL: <your application git repository>
     targetRevision: dev
   syncPolicy:
     automated:
