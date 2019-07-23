@@ -1,0 +1,28 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: hello-world
+  namespace: argocd
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  destination:
+    namespace: jkwong-dev
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    path: .
+    repoURL: https://github.com/jkwong888/liberty-hello-world-openshift-deploy.git
+    targetRevision: dev
+  syncPolicy:
+    automated:
+      prune: true
+status:
+  sync:
+    status:  ""
+    revision:  ""
+    comparedTo: 
+      source: 
+        repoURL: ""
+        path: ""
+      destination: {}
