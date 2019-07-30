@@ -1,0 +1,28 @@
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  name: hello-world-bff
+  namespace: test
+  finalizers:
+    - resources-finalizer.argocd.argoproj.io
+spec:
+  replicas: 1
+  revisionHistoryLimit: 3
+  selector:
+    matchLabels:
+      app: hello-world
+  template:
+    metadata:
+      labels:
+        app: hello-world
+    spec:
+      imagePullSecrets:
+        - name: default-us-icr-io
+      containers:
+        - name: hello-world-bff
+          image: us.icr.io/showcase-dev-iks/hello-world-bff:latest
+          imagePullPolicy: IfNotPresent
+      ports:
+        - name: http
+          containerPort: 3000
+          protocol: TCP
