@@ -17,12 +17,3 @@ spec:
   syncPolicy:
     automated:
       prune: true
-status:
-  sync:
-    status:  ""
-    revision:  ""
-    comparedTo: 
-      source: 
-        repoURL: ""
-        path: ""
-      destination: {}
