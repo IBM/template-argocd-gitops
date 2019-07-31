@@ -13,8 +13,10 @@ spec:
       labels:
         app: guestbook-ui
     spec:
+      imagePullSecrets:
+        - name: test-us-icr-io
       containers:
-      - image: gcr.io/heptio-images/ks-guestbook-demo:0.2
-        name: guestbook-ui
-        ports:
-        - containerPort: 80
+        - name: ui-app
+          image: us.icr.io/showcase-dev-openshift/ui-app:1.0.0-1
+          ports:
+            containerPort: 3000
