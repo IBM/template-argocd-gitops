@@ -17,7 +17,7 @@ spec:
         app: ui-app
     spec:
       imagePullSecrets:
-        - name: default-us-icr-io
+        - name: dev-us-icr-io
       containers:
         - name: ui-app
           image: us.icr.io/showcase-dev-openshift/ui-app:1.0.0-1
