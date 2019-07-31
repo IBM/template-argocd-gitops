@@ -1,22 +1,22 @@
-apiVersion: apps/v1
+apiVersion: apps/v1beta2
 kind: Deployment
 metadata:
-  name: ui-app
+  name: myapp-ui
 spec:
   replicas: 1
   revisionHistoryLimit: 3
   selector:
     matchLabels:
-      app: ui-app
+      app: myapp-ui
   template:
     metadata:
       labels:
-        app: ui-app
+        app: myapp-ui
     spec:
       imagePullSecrets:
         - name: test-us-icr-io
       containers:
-        - name: ui-app
-          image: us.icr.io/showcase-dev-openshift/ui-app:1.0.0-1
-          ports:
-            containerPort: 3000
+      - image: us.icr.io/showcase-dev-openshift/ui-app:1.0.0-1
+        name: myapp-ui
+        ports:
+        - containerPort: 3000
