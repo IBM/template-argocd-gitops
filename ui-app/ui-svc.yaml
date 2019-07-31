@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: hello-world-ui
+  name: ui-app
 spec:
   ports:
   - port: 80

@@ -1,19 +1,19 @@
 apiVersion: argoproj.io/v1alpha1
 kind: Application
 metadata:
-  name: hello-world
-  namespace: test
+  name: bff-app
+  namespace: argocd
   finalizers:
-    - resources-finalizer.argocd.argoproj.io
+  - resources-finalizer.argocd.argoproj.io
 spec:
   destination:
-    namespace: test
-    server: https://kubernetes.default.svc
+    namespace: argocd
+    server: {{ .Values.spec.destination.server }}
   project: default
   source:
-    path: .
+    path: bff-app
     repoURL: https://github.com/ibm-garage-cloud/template-argocd-test
-    targetRevision: dev
+    targetRevision: {{ .Values.spec.source.targetRevision }}
   syncPolicy:
     automated:
       prune: true

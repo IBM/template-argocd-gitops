@@ -1,7 +1,7 @@
 apiVersion: apps/v1beta2
 kind: Deployment
 metadata:
-  name: hello-world-ui
+  name: ui-app
   namespace: test
   finalizers:
     - resources-finalizer.argocd.argoproj.io
@@ -14,13 +14,13 @@ spec:
   template:
     metadata:
       labels:
-        app: hello-world
+        app: ui-app
     spec:
       imagePullSecrets:
         - name: default-us-icr-io
       containers:
-        - name: hello-world-ui
-          image: us.icr.io/showcase-dev-iks/hello-world-ui:latest
+        - name: ui-app
+          image: us.icr.io/showcase-dev-openshift/ui-app:latest
           imagePullPolicy: IfNotPresent
       ports:
         - name: http
