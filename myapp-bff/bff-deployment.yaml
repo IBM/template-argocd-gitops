@@ -1,0 +1,22 @@
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  name: myapp-bff
+spec:
+  replicas: 1
+  revisionHistoryLimit: 3
+  selector:
+    matchLabels:
+      app: myapp-bff
+  template:
+    metadata:
+      labels:
+        app: myapp-bff
+    spec:
+      imagePullSecrets:
+        - name: test-us-icr-io
+      containers:
+      - image: us.icr.io/showcase-dev-openshift/bff-app:1.0.0-1
+        name: myapp-bff
+        ports:
+        - containerPort: 8080
