@@ -11,7 +11,7 @@ spec:
     server: {{ .Values.spec.destination.server }}
   project: default
   source:
-    path: userinterface
+    path: myapp-ui
     repoURL: https://github.com/ibm-garage-cloud/template-argocd-test
     targetRevision: {{ .Values.spec.source.targetRevision }}
   syncPolicy:
