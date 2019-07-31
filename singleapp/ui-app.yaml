@@ -1,0 +1,19 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: ui-app
+  namespace: test
+  finalizers:
+  - resources-finalizer.argocd.argoproj.io
+spec:
+  destination:
+    namespace: test
+    server: https://kubernetes.default.svc
+  project: default
+  source:
+    path: ui-app
+    repoURL: https://github.com/ibm-garage-cloud/template-argocd-test
+    targetRevision: HEAD
+  syncPolicy:
+    automated:
+      prune: true
