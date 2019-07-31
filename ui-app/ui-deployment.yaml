@@ -10,7 +10,7 @@ spec:
   revisionHistoryLimit: 3
   selector:
     matchLabels:
-      app: hello-world
+      app: ui-app
   template:
     metadata:
       labels:
