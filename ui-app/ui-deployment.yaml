@@ -1,21 +1,21 @@
-apiVersion: apps/v1beta2
+apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: guestbook-ui
+  name: ui-app
 spec:
   replicas: 1
   revisionHistoryLimit: 3
   selector:
     matchLabels:
-      app: guestbook-ui
+      app: ui-app
   template:
     metadata:
       labels:
-        app: guestbook-ui
-
+        app: ui-app
+    spec:
+      imagePullSecrets:
+        - name: test-us-icr-io
       containers:
-        - imagePullSecrets:
-          - name: dev-us-icr-io
         - name: ui-app
           image: us.icr.io/showcase-dev-openshift/ui-app:1.0.0-1
           ports:
