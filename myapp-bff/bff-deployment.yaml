@@ -16,7 +16,7 @@ spec:
       imagePullSecrets:
         - name: test-us-icr-io
       containers:
-      - image: us.icr.io/showcase-dev-openshift/bff-app:1.0.0-2
+      - image: us.icr.io/showcase-dev-openshift/bff-app:1.0.0
         name: myapp-bff
         ports:
         - containerPort: 8080
