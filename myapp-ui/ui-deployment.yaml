@@ -16,7 +16,7 @@ spec:
       imagePullSecrets:
         - name: test-us-icr-io
       containers:
-      - image: us.icr.io/showcase-dev-openshift/ui-app:1.0.0-1
+      - image: us.icr.io/showcase-dev-openshift/ui-app:1.0.0-2
         name: myapp-ui
         ports:
         - containerPort: 3000
