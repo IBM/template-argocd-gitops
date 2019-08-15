@@ -10,6 +10,6 @@ template-node-react:
     annotations: {}
       # kubernetes.io/ingress.class: nginx
       # kubernetes.io/tls-acme: "true"
-   hosts:
+    hosts:
       - host: hello
         path: "/"
