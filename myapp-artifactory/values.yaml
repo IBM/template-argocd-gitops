@@ -1,6 +1,7 @@
-image:
-  repository: us.icr.io/showcase-dev-openshift/template-node-typescript
-  tag: 1.0.0
-  secretName: default-us-icr-io
-  pullPolicy: IfNotPresent
-  port: 3000
+template-node-react:
+  image:
+    repository: us.icr.io/showcase-dev-openshift/template-node-typescript
+    tag: 1.0.0
+    secretName: default-us-icr-io
+    pullPolicy: IfNotPresent
+    port: 3000
