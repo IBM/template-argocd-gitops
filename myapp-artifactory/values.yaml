@@ -2,7 +2,7 @@ template-node-react:
   image:
     repository: us.icr.io/showcase-dev-openshift/template-node-react
     tag: 1.0.0
-    secretName: default-us-icr-io
+    secretName: us-icr-io
     pullPolicy: IfNotPresent
     port: 3000
 ingress:
