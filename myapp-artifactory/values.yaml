@@ -5,11 +5,11 @@ template-node-react:
     secretName: us-icr-io
     pullPolicy: IfNotPresent
     port: 3000
-ingress:
-  enabled: true
-  annotations: {}
-    # kubernetes.io/ingress.class: nginx
-    # kubernetes.io/tls-acme: "true"
-  hosts:
-    - host: hello
-      path: "/"
+  ingress:
+    enabled: true
+    annotations: {}
+      # kubernetes.io/ingress.class: nginx
+      # kubernetes.io/tls-acme: "true"
+   hosts:
+      - host: hello
+        path: "/"
