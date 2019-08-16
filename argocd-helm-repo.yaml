@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: argocd-cm
+  namespace: tools
+data:
+  helm.repositories: |
+    - url: http://artifactory.showcase-dev-rhos-cluster.us-south.containers.appdomain.cloud/artifactory/generic-local/showcase-dev-openshift/
+      name: showcase-dev-openshift
