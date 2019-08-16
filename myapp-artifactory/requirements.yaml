@@ -1,4 +1,4 @@
 dependencies:
 - name: template-node-react
-  version: 5.0.2
-  repository: http://artifactory.showcase-dev-rhos-cluster.us-south.containers.appdomain.cloud/artifactory/generic-local/showcase-dev-openshift/index.yaml
+  version: 0.1.0
+  repository: http://artifactory.showcase-dev-rhos-cluster.us-south.containers.appdomain.cloud/artifactory/generic-local/showcase-dev-openshift
