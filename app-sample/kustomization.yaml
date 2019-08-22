@@ -1,0 +1,4 @@
+commonLabels:
+  app: app-sample
+bases:
+  - artifactory.catalyst-team-iks-cluster.us-east.containers.appdomain.cloud/artifactory/list/generic-local/catalyst-team/template-node-react-1.0.0-25/
