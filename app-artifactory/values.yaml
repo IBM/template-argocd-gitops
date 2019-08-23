@@ -1,7 +1,8 @@
 template-node-react:
+  replicaCount: 2
   image:
     repository: us.icr.io/catalyst-team/template-node-react
-    tag: 1.0.0-38
+    tag: 1.0.0-37
     secretName: us-icr-io
     pullPolicy: IfNotPresent
     port: 3000
