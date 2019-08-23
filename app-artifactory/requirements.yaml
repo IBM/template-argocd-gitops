@@ -1,3 +1,4 @@
 dependencies:
 - name: template-node-react
+  version: 1.0.0-38
   repository: http://artifactory.catalyst-team-iks-cluster.us-east.containers.appdomain.cloud/artifactory/generic-local/catalyst-team
