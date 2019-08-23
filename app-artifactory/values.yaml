@@ -1,6 +1,6 @@
 template-node-react:
   image:
-    repository: us.icr.io/catayst-team/template-node-react
+    repository: us.icr.io/catalyst-team/template-node-react
     tag: 1.0.0-38
     secretName: us-icr-io
     pullPolicy: IfNotPresent
