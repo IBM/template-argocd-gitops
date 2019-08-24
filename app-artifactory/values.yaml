@@ -1,5 +1,5 @@
 template-node-react:
-  replicaCount: 3
+  replicaCount: 1
   image:
     repository: us.icr.io/catalyst-team/template-node-react
     tag: 1.0.0-37
