@@ -1,16 +1,11 @@
-template-node-react:
+global:
+  ingressSubdomain: <dev-cluster-name>.us-south.containers.appdomain.cloud
+  tlsSecretName: <dev-cluster-name>
+
+<app-chart-name>:
   replicaCount: 3
-  image:
-    repository: us.icr.io/catalyst-team/template-node-react
-    tag: 1.0.0-38
-    secretName: us-icr-io
-    pullPolicy: IfNotPresent
-    port: 3000
+  
   ingress:
     enabled: true
-    annotations: {}
-      # kubernetes.io/ingress.class: nginx
-      # kubernetes.io/tls-acme: "true"
-    hosts:
-      - host: hello
-        path: "/"
+    tlsSecretName: <dev-cluster-name>
+

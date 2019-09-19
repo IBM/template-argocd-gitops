@@ -13,16 +13,22 @@ Argo CD automates the deployment of the desired application states in the specif
 
 ## Configuration of Artifactory 
 
-Follow these [Instructions](https://github.ibm.com/garage-catalyst/iteration-zero-ibmcloud/blob/dev/docs/ARTIFACTORY.md) to configure Artifactory to act as a Helm Repository
+Follow these [Instructions](https://github.ibm.com/garage-catalyst/iteration-zero-ibmcloud/blob/master/docs/ARTIFACTORY.md) to configure Artifactory to act as a Helm Repository
 
-# Continous Delivery
+## Configuration of Argo CD
+
+Follow these [Instructions](https://github.ibm.com/garage-catalyst/iteration-zero-ibmcloud/blob/master/docs/ARGOCD.md) to configure Argo CD to pull helm configuration from Artifactory and manage deployment of IBM Cloud Registry images into specfic `test` namespaces or projects.
+
+## Continous Delivery
 
 Follow these instructions to manage the deployment of an application that has been previously deployed into the `dev` namespace using Jenkins CI.
 
-## Deployment with Artifactory and Argo CD
+### Deployment with Artifactory and Argo CD
 
-Follow these [Instructions](https://github.ibm.com/garage-catalyst/iteration-zero-ibmcloud/blob/dev/docs/ARGOCD.md) to configure Argo CD to work with Artifactory as a Helm Registry
 
-## Multi App Deployment
+
+
+
+### Multi App Deployment
 
 TBD

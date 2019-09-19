@@ -5,5 +5,5 @@ metadata:
   namespace: tools
 data:
   helm.repositories: |
-    - url: http://artifactory.catalyst-team-iks-cluster.us-east.containers.appdomain.cloud/artifactory/generic-local/catalyst-team/
-      name: catalyst-team
+    - url: <artifactory helm repository location>
+      name: helm-repository-location
