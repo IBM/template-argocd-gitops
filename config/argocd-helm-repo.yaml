@@ -1,9 +1,0 @@
-apiVersion: v1
-kind: ConfigMap
-metadata:
-  name: argocd-cm
-  namespace: tools
-data:
-  helm.repositories: |
-    - url: <artifactory helm repository location>
-      name: helm-repository-location
