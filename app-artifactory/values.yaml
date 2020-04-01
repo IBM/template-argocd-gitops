@@ -5,7 +5,14 @@ global:
 <app-chart-name>:
   replicaCount: 3
   
-  ingress:
+  # For OpenShift set route.enabled=true
+  # For Kubernetes set route.enabled=false
+  route:
     enabled: true
+  
+  # For OpenShift set ingress.enabled=false
+  # For Kubernetes set ingress.enabled=true
+  ingress:
+    enabled: false
     tlsSecretName: <dev-cluster-name>
 
