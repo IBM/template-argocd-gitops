@@ -1,0 +1,4 @@
+dependencies:
+- name: argocd-config
+  version: 0.3.0
+  repository: https://ibm-garage-cloud.github.io/toolkit-charts
