@@ -1,0 +1,4 @@
+version: 0.1.0
+name: app-helm
+apiVersion: v1
+description: Template configuration for a helm-based ArgoCD install. Copy this folder then update the values in requirements.yaml and values.yaml

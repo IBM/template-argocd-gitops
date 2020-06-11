@@ -1,0 +1,37 @@
+global: {}
+
+argocd-config:
+  repoUrl: ""
+
+  project: <project-name>
+
+  applicationTargets:
+    - targetRevision: <git-branch>
+      targetNamespace: <cluster-namespace>
+      server: <server url> (optional)
+      valueFiles: (optional)
+        - <value-yaml>
+      applicationNames:
+        - <app-name-1>
+        - <app-name-2>
+        - <app-name-3>
+
+#  project: inventory
+#
+#  applicationTargets:
+#    - targetRevision: test
+#      targetNamespace: inventory-test
+#      valueFiles:
+#        - values.yaml
+#        - values-test.yaml
+#      applicationNames:
+#        - inventory-ui
+#        - inventory-bff
+#        - inventory-svc
+#    - targetRevision: staging
+#      targetNamespace: inventory-staging
+#      applicationNames:
+#        - inventory-ui
+#        - inventory-bff
+#        - inventory-svc
+

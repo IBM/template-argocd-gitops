@@ -1,0 +1,19 @@
+global:
+  ingressSubdomain: <dev-cluster-name>.us-south.containers.appdomain.cloud
+  tlsSecretName: <dev-cluster-name>
+
+# replace <app-chart-name> with the value given in requirements.yaml
+<app-chart-name>:
+  # provides values from the values.yaml in the <app-chart-name> helm chart
+  replicaCount: 1
+  
+  # For OpenShift set route.enabled=true
+  # For Kubernetes set route.enabled=false
+  route:
+    enabled: true
+  
+  # For OpenShift set ingress.enabled=false
+  # For Kubernetes set ingress.enabled=true
+  ingress:
+    enabled: false
+    tlsSecretName: <dev-cluster-name>

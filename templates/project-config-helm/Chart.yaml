@@ -1,0 +1,4 @@
+apiVersion: v2
+version: 0.1.0
+name: project-config
+description: Chart to configure ArgoCD with the {project-name} project and its applications

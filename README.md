@@ -1,34 +1,199 @@
 # Continuous Deployment with Argo CD
 
-This repository contains a number of samples to help you configure Continuous Delivery (CD) using GitOps. [Argo CD](https://argoproj.github.io/argo-cd/) is an opensource tool that has been developed to enable cloud native developers enable declarative GitOps continuous delivery tool with Kubernetes. It fully supports IBM Kubernetes Services and Red Hat OpenShift.
+This repository contains a sample app configuration to use as a reference for configuring a helm repo deployment via 
+Continuous Delivery (CD) using GitOps. [Argo CD](https://argoproj.github.io/argo-cd/) is an open source tool that has been 
+created to enable declarative GitOps Continuous Delivery on container platforms. It fully supports IBM Kubernetes Services 
+and Red Hat OpenShift.
 
-Argo CD follows the GitOps pattern of using Git repositories as the source of truth for defining the desired application state. Kubernetes manifests can be specified in several ways:
+Argo CD follows the GitOps pattern of using Git repositories as the source of truth for defining the desired application 
+state. Kubernetes manifests can be specified in several ways:
 
 1. [kustomize](https://kustomize.io/) applications
 2. [helm](https://helm.sh/) charts
-5. Plain directory of YAML/json manifests
-6. Any custom config management tool configured as a config management plugin
+3. Plain directory of YAML/json manifests
+4. Any custom config management tool configured as a config management plugin
 
-Argo CD automates the deployment of the desired application states in the specified target environments. Application deployments can track updates to branches, tags, or pinned to a specific version of manifests at a Git commit. See tracking strategies for additional details about the different tracking strategies available.
+Argo CD automates the deployment of the desired application states in the specified target environments. Application 
+deployments can track updates to branches, tags, or pinned to a specific version of manifests at a Git commit. See 
+tracking strategies for additional details about the different tracking strategies available.
 
-## Configuration of Artifactory 
+## Prerequisites
 
-Follow these [Instructions](https://github.ibm.com/garage-catalyst/iteration-zero-ibmcloud/blob/master/docs/ARTIFACTORY.md) to configure Artifactory to act as a Helm Repository
+The provided sample assumes the following components are already available:
 
-## Configuration of Argo CD
+1. Helm repository containing versioned artifacts
 
-Follow these [Instructions](https://github.ibm.com/garage-catalyst/iteration-zero-ibmcloud/blob/master/docs/ARGOCD.md) to configure Argo CD to pull helm configuration from Artifactory and manage deployment of IBM Cloud Registry images into specfic `test` namespaces or projects.
+    The helm repository is used as the source of the base configuration for the application deployment.
 
-## Continous Delivery
+2. ArgoCD instance
+   
+## Configuring the GitOps repository for an application
 
-Follow these instructions to manage the deployment of an application that has been previously deployed into the `dev` namespace using Jenkins CI.
+The following steps are required for each application that will be deployed by ArgoCD:
 
-### Deployment with Artifactory and Argo CD
+1. Copy `templates/app-helm` into the root of the repository and name the folder after the application that 
+will be installed
+2. Update `{directory}/Chart.yaml`
+     - Set `name` value to the directory name
+     - Update `description` value with a brief descrption of the application
+3. Update `{directory}/requirements.yaml`
+     - Set `name` value to the helm chart name
+     - Set `repository` value to the helm repository url
+4. Update `{directory}/values.yaml`
+     - Replace `<app-chart-name>` with the helm chart name
+     - Add any application-specific configuration under the heading
 
+## Creating ArgoCD projects and applications
 
+Components deployed by ArgoCD are called Applications. Applications can
+be grouped into projects. These components can be defined via the ArgoCD
+user interface, the ArgoCD CLI, or via custom resources for the ArgoCD 
+operator.
 
+### ArgoCD CLI
 
+- Create a project
 
-### Multi App Deployment
+```shell script
+argocd proj create {PROJECT} --dest {CLUSTER_HOST},{NAMESPACE} --src {GIT_REPO}
+```
 
-TBD
+where:
+- `{PROJECT}` is the name you want to give to the project
+- `{CLUSTER_HOST}` is the url for the cluster server to which the project applications can be deployed. 
+Use https://kubernetes.default.svc to reference the same cluster where ArgoCD has been deployed. "*" can also
+be used to allow deployments to any server
+- `{NAMESPACE}` is the namespace in the cluster where the applications can be deployed. "*" can be used to indicate any
+namespace
+- `{GIT_REPO}` is the url of the git repository where the gitops config will be located or "*" if you want to allow any
+
+- Create an application
+
+```shell script
+argocd app create {APP_NAME} --project {PROJECT} --repo {GIT_REPO} --path {APP_FOLDER} --dest-namespace {NAMESPACE} --dest-server {SERVER_URL}
+```
+
+where:
+- `{APP_NAME}` is the name you want to give the application
+- `{PROJECT}` is the name of the project created above or "default"
+- `{GIT_REPO}` is the url of the git repository where the gitops config is be located
+- `{APP_FOLDER}` is the path to the configuration for the application in the gitops repo
+- `{DEST_NAMESPACE}` is the target namespace in the cluster where the application will be deployed
+- `{SERVER_URL}` is the url of the cluster where the application will be deployed. Use https://kubernetes.default.svc to reference the same cluster where ArgoCD has been dployed
+
+### Operator custom resources
+
+The operator defines a custom resource for a Project and Application
+component in ArgoCD. These are simple yaml files that define the attributes
+required to configure ArgoCD. The following steps can be followed to create
+te necessary resources by hand:
+
+1. Copy the template project from `templates/project-config-manual` into the root directory and name the folder
+after the project (e.g. `{project name}-config`)
+2. Update the `project.yaml` file with the details of the project. The destinations block can use "*" for the
+server and namespace or can list multiple destinations explicitly.
+3. Rename the `application.yaml` file after one of the applications that will be deployed. Update the values
+to match the application deployment configuration.
+4. For each additional application, copy one of the application yaml files and update
+the values accordingly.
+5. Register the `{project-name}-config` folder as a "bootstrap application"
+
+```shell script
+argocd app create {APP_NAME} --repo {GIT_REPO} --path {APP_FOLDER} --revision {GIT_BRANCH} --dest-namespace {NAMESPACE} --dest-server https://kubernetes.default.svc
+```
+ 
+where:
+- `APP_NAME` is the name you want to give the application (e.g. `{project-name}-config`)
+- `GIT_REPO` is the url of the git repository where the gitops config is be located
+- `APP_FOLDER` is the path to the configuration for the application in the gitops repo (e.g. `{project-name}-config`)
+- `GIT_BRANCH` is the branch where the "bootstrap application" config has been stored
+- `DEST_NAMESPACE` is the namespace where the ArgoCD operator has been deployed (e.g. `tools`)
+- `SERVER_URL` is the url of the cluster where the application will be deployed. Use https://kubernetes.default.svc to 
+reference the same cluster where ArgoCD has been deployed
+
+**Note:** As new applications are added to the project, simply update add another application yaml file
+to the folder and ArgoCD will update the configuration
+
+### Operator custom resources with helm
+
+The operator defines a custom resource for a Project and Application
+component in ArgoCD. In order to simplify the configuration of the
+components, a helm chart has been provided that will generate the various
+combinations of applications for various namespaces. The following steps can
+be used to apply custom resources:
+
+1. Copy the template project from `templates/project-config-helm` into the root directory and name the folder
+after the project (e.g. `{project name}-config`)
+2. Update `{project-name}-config/Chart.yaml`
+    - Set `name` to match the name of the folder (e.g. `{project-name}-config`)
+    - Update `description` with the name of your project
+3. Update `{project-name}-config/values.yaml` with the project information
+    - Set `<project-name>` to the name of the project. This name will be used to group the applications 
+    together and the name can be whatever you want
+    - For each branch, create an entry under the `applicationTargets` heading and provide the appropriate values:
+        - `<git-branch>` is the branch in the gitops repo that contains the configuration
+        - `<cluster-namespace>` is the namespace into which the application will be deployed, it must already exist
+        - `<server-url>` is the url of the target cluster if deploying to a remote cluster. If deploying to the same
+        cluster where ArgoCD is deployed then this value can be set to empty string ("")
+        - `<value-yaml>` is the name of the yaml file containing the values. The `valueFiles` field is an array that can
+        accept multiple files, applied in the order they are provided. If not provided it will default to `values.yaml`
+        - `<app-name-1>`, `<app-name-2>`, etc are the names of the applications that will be deployed. Each value
+        should correspond to directory of the same name in the git repo. Each directory should contain the
+        configuration for that application.
+
+    For example:
+    ```yaml
+    argocd-config:
+      project: inventory
+    
+      applicationTargets:
+        - targetRevision: test
+          targetNamespace: inventory-test
+          applicationNames: 
+          - inventory-ui
+          - inventory-bff
+          - inventory-svc
+        - targetRevision: staging
+          targetNamespace: inventory-staging
+          applicationNames: 
+          - inventory-ui
+          - inventory-bff
+          - inventory-svc
+    ```
+   
+   will configure ArgoCD to deploy the `inventory-ui`, `inventory-bff`, and `inventory-svc` apps as part of the 
+   `inventory` project into the `invantory-test` and `inventory-staging` namespaces according to the contents of those 
+   folders in the `test` and `staging` branches, respectively
+
+5. Register the `{project-name}-config` folder as a "bootstrap application"
+
+```shell script
+argocd app create {APP_NAME} --repo {GIT_REPO} --path {APP_FOLDER} --revision {GIT_BRANCH} --dest-namespace {NAMESPACE} --dest-server https://kubernetes.default.svc
+```
+ 
+where:
+- `APP_NAME` is the name you want to give the application (e.g. `{project-name}-config`)
+- `GIT_REPO` is the url of the git repository where the gitops config is be located
+- `APP_FOLDER` is the path to the configuration for the application in the gitops repo (e.g. `{project-name}-config`)
+- `GIT_BRANCH` is the branch where the "bootstrap application" config has been stored
+- `DEST_NAMESPACE` is the namespace where the ArgoCD operator has been deployed (e.g. `tools`)
+- `SERVER_URL` is the url of the cluster where the application will be deployed. Use https://kubernetes.default.svc to 
+reference the same cluster where ArgoCD has been deployed
+
+**Note:** As new applications are added to the project, simply update the `{project-name}-config/values.yaml`
+to include the new application and its configuration
+
+## CLI quick reference
+
+### Login
+
+```shell script
+argocd login {GRPC_INGRESS_HOST} --grpc-web [--sso]
+```
+
+where:
+- `GRPC_INGRESS_HOST` is the host name of the grpc ingress
+- the optional`--sso` flag is used when sso authentication is enabled
+
+The command will prompt for a password. The grpc url and credentials can be retrieved
+from the `igc credentials` command

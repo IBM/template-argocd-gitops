@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: <application-name>
+spec:
+  destination:
+    namespace: <namespace>
+    server: "https://kubernetes.default.svc"
+  project: <project-name>
+  source:
+    path: <path-to-app-in-gitops-repo>
+    repoURL: <repo-url>
+    targetRevision: <branch-in-gitops-repo>
+    helm:
+      valueFiles:
+        - values.yaml
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
