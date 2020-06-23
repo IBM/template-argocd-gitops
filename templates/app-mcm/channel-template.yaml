@@ -1,0 +1,11 @@
+apiVersion: app.ibm.com/v1alpha1
+kind: Channel
+metadata:
+  name: helm-repo-artifactory
+  namespace: #NAMESPACE
+spec:
+  configMap:
+    insecureSkipVerify: true
+  pathname: >-
+    #HELM_REPOSITORY
+  type: HelmRepo
