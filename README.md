@@ -37,8 +37,10 @@ The provided sample assumes the following components are already available:
     The helm repository is used as the source of the base configuration for the application deployment.
 
 2. ArgoCD instance
-   
-## Configuring the GitOps repository for an application
+
+## Configuring an application
+
+### Configuring the GitOps repository for an application
 
 The following steps are required for each application that will be deployed by ArgoCD:
 
@@ -53,6 +55,13 @@ will be installed
 4. Update `{directory}/values.yaml`
      - Replace `<app-chart-name>` with the helm chart name
      - Add any application-specific configuration under the heading
+
+### Configuring the GitOps repository for a secret
+
+The following steps will set up the configuration for a set of secrets to be generated using the [Key Protect plugin](https://github.com/ibm-garage-cloud/argocd-plugin-key-protect):
+
+1. Copy `templates/secrets-plugin` into the root of the repository and give the folder a name that represents the collection of secrets
+2. Update `secret.yaml` with the name and values section for values that should be created in the Secret
 
 ## Creating ArgoCD projects and applications
 
