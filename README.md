@@ -61,7 +61,43 @@ will be installed
 The following steps will set up the configuration for a set of secrets to be generated using the [Key Protect plugin](https://github.com/ibm-garage-cloud/argocd-plugin-key-protect):
 
 1. Copy `templates/secrets-plugin` into the root of the repository and give the folder a name that represents the collection of secrets
-2. Update `secret.yaml` with the name and values section for values that should be created in the Secret
+2. Update `secret.yaml` with the name and values section for values that should be created in the Secret. The structure and purpose of the configuration values is as follows:
+
+    ```yaml
+    apiVersion: keymanagement.ibm/v1
+    kind: SecretTemplate
+    metadata:
+      name: mysecret
+      annotations:
+        key-manager: key-protect
+        key-protect/instanceId: instance-id
+        key-protect/region: us-east
+    spec:
+      labels: {}
+      annotations: {}
+      values:
+        - name: url
+          value: https://ibm.com
+        - name: username
+          b64value: dGVhbS1jYXA=
+        - name: password
+          keyId: 36397b07-d98d-4c0b-bd7a-d6c290163684
+    ``` 
+    
+    - The `metadata.annotations` value is optional. 
+    
+        - `key-manager` - the only value supported currently is `key-protect`
+        - `key-protect/instanceId` - the instance id of the key protect instance. If not provided then the `instance-id` value from the `key-protect-access` secret will be used.
+        - `key-protect/region` - the region where the key protect instance has been provisioned. If not provided then the `region` value from the `key-protect-access` secret will be used.
+        
+    - The `metadata.name` value given will be used as the name for the Secret that will be generated.
+    - The information in `spec.labels` and `spec.annotations` will be copied over as the `labels` and `annotations` in the Secret that is generated
+    - The `spec.values` section contains the information that should be provided in the `data` section of the generated Secret. There are three prossible ways the values can be provided:
+    
+        - `value` - the actual value can be provided directly as clear text. This would be appropriate for information that is not sensitive but is required in the secret
+        - `b64value` - a base64 encoded value can be provided to the secret. This can be used for large values that might present formatting issues or for information that is not sensitive but that might be obfuscated a bit (like a username)
+        - `keyId` - the id (not the name) of the Standard Key that has been stored in Key Protect. The value stored in Key Protect can be anything
+
 
 ## Creating ArgoCD projects and applications
 
