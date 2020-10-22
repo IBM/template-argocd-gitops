@@ -205,23 +205,24 @@ after the project (e.g. `{project name}-config`)
       applicationTargets:
         - targetRevision: test
           targetNamespace: inventory-test
-          applicationNames: 
-          - inventory-ui
-          - inventory-bff
-          - inventory-svc
+          applications: 
+          - name: inventory-ui
+          - name: inventory-bff
+          - name: inventory-svc
         - targetRevision: staging
           targetNamespace: inventory-staging
-          applicationNames: 
-          - inventory-ui
-          - inventory-bff
-          - inventory-svc
+          applications: 
+          - name: inventory-ui
+          - name: inventory-bff
+            path: inventory-bff
+          - name: inventory-svc
     ```
    
    will configure ArgoCD to deploy the `inventory-ui`, `inventory-bff`, and `inventory-svc` apps as part of the 
    `inventory` project into the `invantory-test` and `inventory-staging` namespaces according to the contents of those 
    folders in the `test` and `staging` branches, respectively
 
-5. Register the `{project-name}-config` folder as a "bootstrap application"
+4. Register the `{project-name}-config` folder as a "bootstrap application"
 
 ```shell script
 argocd app create {APP_NAME} --repo {GIT_REPO} --path {APP_FOLDER} --revision {GIT_BRANCH} --dest-namespace {NAMESPACE} --dest-server https://kubernetes.default.svc
