@@ -11,27 +11,30 @@ argocd-config:
       server: <server url> (optional)
       valueFiles: (optional)
         - <value-yaml>
-      applicationNames:
-        - <app-name-1>
-        - <app-name-2>
-        - <app-name-3>
+      applications:
+        - name: <app-name-1>
+        - name: <app-name-2>
+        - name: <app-name-3>
 
-#  project: inventory
-#
-#  applicationTargets:
-#    - targetRevision: test
-#      targetNamespace: inventory-test
-#      valueFiles:
-#        - values.yaml
-#        - values-test.yaml
-#      applicationNames:
-#        - inventory-ui
-#        - inventory-bff
-#        - inventory-svc
-#    - targetRevision: staging
-#      targetNamespace: inventory-staging
-#      applicationNames:
-#        - inventory-ui
-#        - inventory-bff
-#        - inventory-svc
-
+    # - targetRevision: ""
+    #   targetNamespace: ""
+    #   createNamespace: true
+    #   server: "" (optional)
+    #   valueFiles: (optional)
+    #   - values.yaml
+    #   applications:
+    #   - app1
+    #   - name: app1
+    #   - name: app1
+    #     type: helm
+    #   - name: app1
+    #     type: helm
+    #     path: app1
+    #   - name: app2
+    #     type: directory
+    #   - name: app3
+    #     type: plugin
+    #     plugin: plugin-name
+    #   - name: app4
+    #     type: kustomize
+    #     path: app4/overlay
