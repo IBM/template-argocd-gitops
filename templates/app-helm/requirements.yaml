@@ -1,4 +1,0 @@
-dependencies:
-- name: <app-chart-name>
-  version: <helm chart version>
-  repository: https://<helm-repository-location>

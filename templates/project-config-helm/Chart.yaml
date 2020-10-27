@@ -1,9 +1,0 @@
-apiVersion: v2
-version: 0.1.0
-name: project-config-helm
-description: Chart to configure ArgoCD with the {project-name} project and its applications
-
-dependencies:
-- name: argocd-config
-  version: 0.15.0
-  repository: https://ibm-garage-cloud.github.io/toolkit-charts
