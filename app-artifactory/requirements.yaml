@@ -1,4 +1,0 @@
-dependencies:
-- name: <app-chart-name>
-  version: 1.0.0-<build tag version>
-  repository: <artifactory helm repository location>
