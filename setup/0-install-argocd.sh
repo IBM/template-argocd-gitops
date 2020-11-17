@@ -4,11 +4,14 @@ SCRIPT_DIR=$(cd $(dirname "$0"); pwd -P)
 
 NAMESPACE=$(oc project -q)
 
-sed "s/NAMESPACE/${NAMESPACE}/g" "${SCRIPT_DIR}/templates/argocd-subscription.yaml" | oc apply -f -
+echo -n "Installing ArgoCD into ${NAMESPACE} namespace. Proceed? [Y/n] "
+read proceed
+
+cat "${SCRIPT_DIR}/templates/argocd-subscription.yaml" | sed "s/NAMESPACE/${NAMESPACE}/g" | oc apply -f -
 
 echo "Wait for ArgoCD CRDs to be installed"
 count=1
-while $count < 10; do
+while [[ $count -lt 10 ]]; do
   if oc get crd argocds.argoproj.io 1> /dev/null 2> /dev/null; then
     echo "ArgoCD CRDs installed"
     break
@@ -21,7 +24,7 @@ done
 oc apply -f "${SCRIPT_DIR}/templates/argocd-instance.yaml"
 
 count=0
-while $count < 10; do
+while [[ $count -lt 10 ]]; do
   if oc get deployment argocd-application-controller 1> /dev/null 2> /dev/null; then
     echo "ArgoCD application controller deployment created"
     break
@@ -33,7 +36,7 @@ done
 
 DEPLOYMENTS=$(oc get deployment -n tools -l app.kubernetes.io/part-of=argocd --output=custom-columns=NAME:.metadata.name | grep -v NAME)
 
-echo ${DEPLOYMENTS} | while read deployment; do
+for deployment in ${DEPLOYMENTS}; do
   echo "Waiting for deployment: $deployment"
   oc rollout status deployment "${deployment}"
 done

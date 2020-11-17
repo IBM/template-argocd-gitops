@@ -6,7 +6,7 @@ if [[ -z "${GIT_REPO}" ]]; then
 fi
 
 if [[ "${GIT_REPO}" =~ ^git ]]; then
-  echo -n "Provide the path to the private SSH key: "
+  echo -n "Provide the path to the private SSH key for repo (${GIT_REPO}): "
   read KEY_PATH
 
   argocd repocreds add "${GIT_REPO}" \
@@ -16,7 +16,8 @@ else
   read GIT_USER
 
   echo -n "Personal access token for git repo (${GIT_REPO}): "
-  read -p GIT_PASSWORD
+  read -s GIT_PASSWORD
+  echo ""
 
   argocd repocreds add "${GIT_REPO}" \
     --username "${GIT_USER}" \
